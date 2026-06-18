@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>鍏€傾I鍔╂墜 - 琛屾祴+鐢宠鏅鸿兘杈呭</title>
+<title>公考AI助手 - 行测+申论智能辅导</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -220,17 +220,17 @@
 </head>
 <body>
 
-<!-- API Key 璁剧疆寮圭獥 -->
+<!-- API Key 设置弹窗 -->
 <div class="api-key-input" id="apiKeyModal">
   <div class="api-key-box">
-    <h3>璁剧疆 API Key</h3>
-    <p>鏈伐鍏烽渶瑕佽皟鐢ㄥぇ妯″瀷 API銆傝杈撳叆浣犵殑 API Key锛堜粎淇濆瓨鍦ㄦ湰鍦版祻瑙堝櫒涓級锛?/p>
+    <h3>设置 API Key</h3>
+    <p>本工具需要调用大模型 API。请输入你的 API Key（仅保存在本地浏览器中）：</p>
     <div class="form-group">
       <select id="apiProvider">
-        <option value="openai">OpenAI / 鍏煎鎺ュ彛</option>
+        <option value="openai">OpenAI / 兼容接口</option>
         <option value="deepseek">DeepSeek</option>
-        <option value="siliconflow">纭呭熀娴佸姩 (SiliconFlow)</option>
-        <option value="custom">鑷畾涔夋帴鍙?/option>
+        <option value="siliconflow">硅基流动 (SiliconFlow)</option>
+        <option value="custom">自定义接口</option>
       </select>
     </div>
     <div class="form-group">
@@ -239,254 +239,261 @@
     <div class="form-group" id="customUrlGroup" style="display:none;">
       <input type="text" id="customUrl" placeholder="https://api.example.com/v1/chat/completions">
     </div>
-    <button class="btn-primary" onclick="saveApiKey()">淇濆瓨骞跺紑濮嬩娇鐢?/button>
+    <button class="btn-primary" onclick="saveApiKey()">保存并开始使用</button>
     <p style="margin-top:12px;font-size:0.75rem;color:#666;">
-      娌℃湁 API Key锛熸帹鑽愶細<a href="https://platform.deepseek.com" target="_blank" style="color:#e94560;">DeepSeek</a> 鎴?
-      <a href="https://cloud.siliconflow.cn" target="_blank" style="color:#e94560;">纭呭熀娴佸姩</a>锛堝厤璐归搴﹀厖瓒筹級
+      没有 API Key？推荐：<a href="https://platform.deepseek.com" target="_blank" style="color:#e94560;">DeepSeek</a> 或 
+      <a href="https://cloud.siliconflow.cn" target="_blank" style="color:#e94560;">硅基流动</a>（免费额度充足）
     </p>
   </div>
 </div>
 
 <div class="container">
   <header>
-    <h1>鍏€傾I鍔╂墜</h1>
-    <p>琛屾祴鏅鸿兘瑙ｆ瀽 + 鐢宠鏅鸿兘鎵规敼锛屼綘鐨勫叕鑰冨鑰冩惌妗?/p>
+    <h1>公考AI助手</h1>
+    <p>行测智能解析 + 申论智能批改，你的公考备考搭档</p>
   </header>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('xingce')">琛屾祴鍔╂墜</button>
-    <button class="tab-btn" onclick="switchTab('shenlun')">鐢宠鍔╂墜</button>
-    <button class="tab-btn" onclick="switchTab('arch')">浼佷笟鏋舵瀯</button>
-    <button class="tab-btn" onclick="switchTab('leader')">棰嗗缁撴瀯</button>
+    <button class="tab-btn active" onclick="switchTab('xingce')">行测助手</button>
+    <button class="tab-btn" onclick="switchTab('shenlun')">申论助手</button>
+    <button class="tab-btn" onclick="switchTab('arch')">企业架构</button>
+    <button class="tab-btn" onclick="switchTab('leader')">领导结构</button>
   </div>
 
-  <!-- 琛屾祴鍔╂墜 -->
+  <!-- 行测助手 -->
   <div class="panel active" id="xingcePanel">
     <div class="card">
-      <h3>鏅鸿兘琛屾祴瑙ｆ瀽</h3>
+      <h3>智能行测解析</h3>
       <div class="form-group">
-        <label>棰樺瀷</label>
+        <label>题型</label>
         <select id="xingceType">
-          <option value="瑷€璇悊瑙?>瑷€璇悊瑙ｄ笌琛ㄨ揪</option>
-          <option value="鏁伴噺鍏崇郴">鏁伴噺鍏崇郴</option>
-          <option value="鍒ゆ柇鎺ㄧ悊">鍒ゆ柇鎺ㄧ悊</option>
-          <option value="璧勬枡鍒嗘瀽">璧勬枡鍒嗘瀽</option>
-          <option value="甯歌瘑鍒ゆ柇">甯歌瘑鍒ゆ柇</option>
+          <option value="言语理解">言语理解与表达</option>
+          <option value="数量关系">数量关系</option>
+          <option value="判断推理">判断推理</option>
+          <option value="资料分析">资料分析</option>
+          <option value="常识判断">常识判断</option>
         </select>
       </div>
       <div class="form-group">
-        <label>棰樼洰鍐呭</label>
-        <textarea id="xingceQuestion" placeholder="璇风矘璐磋娴嬮鐩唴瀹?..
+        <label>题目内容</label>
+        <textarea id="xingceQuestion" placeholder="请粘贴行测题目内容...
 
-绀轰緥锛?鏌愬崟浣嶆湁鍛樺伐100浜猴紝鍏朵腑鐢峰憳宸?0浜猴紝濂冲憳宸?0浜恒€傜幇瑕佷粠涓€夊嚭3浜虹粍鎴愪竴涓皬缁勶紝瑕佹眰鑷冲皯鏈?鍚嶅コ鍛樺伐锛岄棶鏈夊灏戠閫夋硶锛?A. 18000
+示例：
+某单位有员工100人，其中男员工60人，女员工40人。现要从中选出3人组成一个小组，要求至少有1名女员工，问有多少种选法？
+A. 18000
 B. 19600
 C. 20000
 D. 22000"></textarea>
       </div>
       <div class="form-group">
-        <label>浣犵殑绛旀锛堝彲閫夛級</label>
-        <input type="text" id="xingceAnswer" placeholder="渚嬪锛欱">
+        <label>你的答案（可选）</label>
+        <input type="text" id="xingceAnswer" placeholder="例如：B">
       </div>
-      <button class="btn-primary" onclick="analyzeXingce()">鏅鸿兘瑙ｆ瀽</button>
+      <button class="btn-primary" onclick="analyzeXingce()">智能解析</button>
       <div class="loading" id="xingceLoading">
         <div class="spinner"></div>
-        <p>姝ｅ湪鍒嗘瀽棰樼洰...</p>
+        <p>正在分析题目...</p>
       </div>
       <div class="result-box" id="xingceResult"></div>
     </div>
 
     <div class="card">
-      <h3>蹇€熺敓鎴愭ā鎷熼</h3>
+      <h3>快速生成模拟题</h3>
       <div class="tag-list">
-        <span class="tag" onclick="generateMock('瑷€璇悊瑙?)">瑷€璇悊瑙?/span>
-        <span class="tag" onclick="generateMock('鏁伴噺鍏崇郴')">鏁伴噺鍏崇郴</span>
-        <span class="tag" onclick="generateMock('鍒ゆ柇鎺ㄧ悊')">鍒ゆ柇鎺ㄧ悊</span>
-        <span class="tag" onclick="generateMock('璧勬枡鍒嗘瀽')">璧勬枡鍒嗘瀽</span>
-        <span class="tag" onclick="generateMock('甯歌瘑鍒ゆ柇')">甯歌瘑鍒ゆ柇</span>
+        <span class="tag" onclick="generateMock('言语理解')">言语理解</span>
+        <span class="tag" onclick="generateMock('数量关系')">数量关系</span>
+        <span class="tag" onclick="generateMock('判断推理')">判断推理</span>
+        <span class="tag" onclick="generateMock('资料分析')">资料分析</span>
+        <span class="tag" onclick="generateMock('常识判断')">常识判断</span>
       </div>
       <div class="loading" id="mockLoading" style="margin-top:16px;">
         <div class="spinner"></div>
-        <p>姝ｅ湪鐢熸垚妯℃嫙棰?..</p>
+        <p>正在生成模拟题...</p>
       </div>
       <div class="result-box" id="mockResult"></div>
     </div>
   </div>
 
-  <!-- 鐢宠鍔╂墜 -->
+  <!-- 申论助手 -->
   <div class="panel" id="shenlunPanel">
     <div class="card">
-      <h3>鐢宠鏅鸿兘鎵规敼</h3>
+      <h3>申论智能批改</h3>
       <div class="form-group">
-        <label>棰樼洰瑕佹眰</label>
-        <textarea id="shenlunTopic" placeholder="璇风矘璐寸敵璁洪鐩姹?..
+        <label>题目要求</label>
+        <textarea id="shenlunTopic" placeholder="请粘贴申论题目要求...
 
-绀轰緥锛?璇锋牴鎹粰瀹氳祫鏂欙紝姒傛嫭褰撳墠涔℃潙鏂囧寲鎸叴闈复鐨勪富瑕侀棶棰橈紝骞舵彁鍑哄绛栧缓璁€傝姹傦細鍏ㄩ潰鍑嗙‘锛屾潯鐞嗘竻鏅帮紝涓嶈秴杩?00瀛椼€?></textarea>
+示例：
+请根据给定资料，概括当前乡村文化振兴面临的主要问题，并提出对策建议。要求：全面准确，条理清晰，不超过400字。"></textarea>
       </div>
       <div class="form-group">
-        <label>浣犵殑浣滅瓟</label>
-        <textarea id="shenlunAnswer" placeholder="璇风矘璐翠綘鐨勭敵璁虹瓟妗?..
+        <label>你的作答</label>
+        <textarea id="shenlunAnswer" placeholder="请粘贴你的申论答案...
 
-绀轰緥锛?褰撳墠涔℃潙鏂囧寲鎸叴闈复浠ヤ笅闂锛氫竴鏄?.."></textarea>
+示例：
+当前乡村文化振兴面临以下问题：一是..."></textarea>
       </div>
-      <button class="btn-primary" onclick="gradeShenlun()">鏅鸿兘鎵规敼</button>
+      <button class="btn-primary" onclick="gradeShenlun()">智能批改</button>
       <div class="loading" id="shenlunLoading">
         <div class="spinner"></div>
-        <p>姝ｅ湪鎵规敼涓?..</p>
+        <p>正在批改中...</p>
       </div>
       <div class="result-box" id="shenlunResult"></div>
     </div>
 
     <div class="card">
-      <h3>鐢宠鑼冩枃鐢熸垚</h3>
+      <h3>申论范文生成</h3>
       <div class="form-group">
-        <label>涓婚</label>
-        <input type="text" id="shenlunTheme" placeholder="渚嬪锛氫埂鏉戞尟鍏淬€佸熀灞傛不鐞嗐€佹暟瀛楃粡娴?>
+        <label>主题</label>
+        <input type="text" id="shenlunTheme" placeholder="例如：乡村振兴、基层治理、数字经济">
       </div>
       <div class="form-group">
-        <label>绫诲瀷</label>
+        <label>类型</label>
         <select id="shenlunType">
-          <option value="姒傛嫭褰掔撼">姒傛嫭褰掔撼棰?/option>
-          <option value="缁煎悎鍒嗘瀽">缁煎悎鍒嗘瀽棰?/option>
-          <option value="瀵圭瓥寤鸿">瀵圭瓥寤鸿棰?/option>
-          <option value="澶т綔鏂?>澶т綔鏂?/option>
+          <option value="概括归纳">概括归纳题</option>
+          <option value="综合分析">综合分析题</option>
+          <option value="对策建议">对策建议题</option>
+          <option value="大作文">大作文</option>
         </select>
       </div>
-      <button class="btn-primary" onclick="generateShenlun()">鐢熸垚鑼冩枃</button>
+      <button class="btn-primary" onclick="generateShenlun()">生成范文</button>
       <div class="loading" id="shenlunGenLoading">
         <div class="spinner"></div>
-        <p>姝ｅ湪鐢熸垚鑼冩枃...</p>
+        <p>正在生成范文...</p>
       </div>
       <div class="result-box" id="shenlunGenResult"></div>
     </div>
   </div>
 
-  <!-- 浼佷笟鏋舵瀯 -->
+  <!-- 企业架构 -->
   <div class="panel" id="archPanel">
     <div class="card">
-      <h3>浼佷笟缁勭粐鏋舵瀯鍒嗘瀽</h3>
+      <h3>企业组织架构分析</h3>
       <div class="form-group">
-        <label>浼佷笟鍚嶇О锛堝彲閫夛級</label>
-        <input type="text" id="companyName" placeholder="渚嬪锛氭煇甯傚煄鎶曢泦鍥?>
+        <label>企业名称（可选）</label>
+        <input type="text" id="companyName" placeholder="例如：某市城投集团">
       </div>
       <div class="form-group">
-        <label>浼佷笟绫诲瀷</label>
+        <label>企业类型</label>
         <select id="companyType">
-          <option value="鍥戒紒">鍥芥湁浼佷笟</option>
-          <option value="澶紒">涓ぎ浼佷笟</option>
-          <option value="浜嬩笟鍗曚綅">浜嬩笟鍗曚綅</option>
-          <option value="姘戜紒">姘戣惀浼佷笟</option>
-          <option value="澶栦紒">澶栬祫浼佷笟</option>
+          <option value="国企">国有企业</option>
+          <option value="央企">中央企业</option>
+          <option value="事业单位">事业单位</option>
+          <option value="民企">民营企业</option>
+          <option value="外企">外资企业</option>
         </select>
       </div>
       <div class="form-group">
-        <label>琛屼笟棰嗗煙</label>
+        <label>行业领域</label>
         <select id="industry">
-          <option value="缁煎悎">缁煎悎/鎶曡祫</option>
-          <option value="鑳芥簮">鑳芥簮/鐢靛姏</option>
-          <option value="浜ら€?>浜ら€?鍩哄缓</option>
-          <option value="閲戣瀺">閲戣瀺/閾惰</option>
-          <option value="绉戞妧">绉戞妧/浜掕仈缃?/option>
-          <option value="鍒堕€?>鍒堕€?宸ヤ笟</option>
+          <option value="综合">综合/投资</option>
+          <option value="能源">能源/电力</option>
+          <option value="交通">交通/基建</option>
+          <option value="金融">金融/银行</option>
+          <option value="科技">科技/互联网</option>
+          <option value="制造">制造/工业</option>
         </select>
       </div>
       <div class="form-group">
-        <label>琛ュ厖鎻忚堪锛堝彲閫夛級</label>
-        <textarea id="companyDesc" placeholder="鎻忚堪璇ヤ紒涓氱殑涓昏涓氬姟銆佽妯°€佸眰绾х粨鏋勭瓑淇℃伅..."></textarea>
+        <label>补充描述（可选）</label>
+        <textarea id="companyDesc" placeholder="描述该企业的主要业务、规模、层级结构等信息..."></textarea>
       </div>
-      <button class="btn-primary" onclick="analyzeArch()">鐢熸垚鏋舵瀯鍒嗘瀽</button>
+      <button class="btn-primary" onclick="analyzeArch()">生成架构分析</button>
       <div class="loading" id="archLoading">
         <div class="spinner"></div>
-        <p>姝ｅ湪鍒嗘瀽鏋舵瀯...</p>
+        <p>正在分析架构...</p>
       </div>
       <div class="result-box" id="archResult"></div>
     </div>
   </div>
 
-  <!-- 棰嗗缁撴瀯 -->
+  <!-- 领导结构 -->
   <div class="panel" id="leaderPanel">
     <div class="card">
-      <h3>棰嗗鐝瓙缁撴瀯鍒嗘瀽</h3>
+      <h3>领导班子结构分析</h3>
       <div class="form-group">
-        <label>鍗曚綅绫诲瀷</label>
+        <label>单位类型</label>
         <select id="unitType">
-          <option value="鏈哄叧">鏀垮簻鏈哄叧</option>
-          <option value="鍥戒紒">鍥芥湁浼佷笟</option>
-          <option value="浜嬩笟鍗曚綅">浜嬩笟鍗曚綅</option>
-          <option value="涔￠晣">涔￠晣/琛楅亾</option>
-          <option value="寮€鍙戝尯">寮€鍙戝尯/楂樻柊鍖?/option>
+          <option value="机关">政府机关</option>
+          <option value="国企">国有企业</option>
+          <option value="事业单位">事业单位</option>
+          <option value="乡镇">乡镇/街道</option>
+          <option value="开发区">开发区/高新区</option>
         </select>
       </div>
       <div class="form-group">
-        <label>鍗曚綅绾у埆</label>
+        <label>单位级别</label>
         <select id="unitLevel">
-          <option value="姝ｉ儴绾?>姝ｉ儴绾?/option>
-          <option value="鍓儴绾?>鍓儴绾?/option>
-          <option value="姝ｅ巺绾?>姝ｅ巺绾?/option>
-          <option value="鍓巺绾?>鍓巺绾?/option>
-          <option value="姝ｅ绾?>姝ｅ绾?/option>
-          <option value="鍓绾?>鍓绾?/option>
-          <option value="姝ｇ绾?>姝ｇ绾?/option>
+          <option value="正部级">正部级</option>
+          <option value="副部级">副部级</option>
+          <option value="正厅级">正厅级</option>
+          <option value="副厅级">副厅级</option>
+          <option value="正处级">正处级</option>
+          <option value="副处级">副处级</option>
+          <option value="正科级">正科级</option>
         </select>
       </div>
       <div class="form-group">
-        <label>棰嗗鐝瓙淇℃伅锛堝彲閫夊～锛?/label>
-        <textarea id="leaderInfo" placeholder="濉啓棰嗗鐝瓙鎴愬憳淇℃伅锛屼緥濡傦細
-- 鍏氬涔﹁锛氬紶涓夛紝1968骞寸敓锛屽垎绠″厷寤恒€佷汉浜?- 鎬荤粡鐞嗭細鏉庡洓锛?972骞寸敓锛屽垎绠＄粡钀ャ€佽储鍔?- 鍓€荤粡鐞嗭細鐜嬩簲锛?975骞寸敓锛屽垎绠℃妧鏈€佺敓浜?></textarea>
+        <label>领导班子信息（可选填）</label>
+        <textarea id="leaderInfo" placeholder="填写领导班子成员信息，例如：
+- 党委书记：张三，1968年生，分管党建、人事
+- 总经理：李四，1972年生，分管经营、财务
+- 副总经理：王五，1975年生，分管技术、生产"></textarea>
       </div>
-      <button class="btn-primary" onclick="analyzeLeader()">鐢熸垚缁撴瀯鍒嗘瀽</button>
+      <button class="btn-primary" onclick="analyzeLeader()">生成结构分析</button>
       <div class="loading" id="leaderLoading">
         <div class="spinner"></div>
-        <p>姝ｅ湪鍒嗘瀽...</p>
+        <p>正在分析...</p>
       </div>
       <div class="result-box" id="leaderResult"></div>
     </div>
 
     <div class="card">
-      <h3>浣撳埗鍐呮檵鍗囪矾寰勮鍒?/h3>
+      <h3>体制内晋升路径规划</h3>
       <div class="form-group">
-        <label>褰撳墠宀椾綅</label>
-        <input type="text" id="currentPost" placeholder="渚嬪锛氱鍛樸€佸壇绉戦暱銆佺闀?>
+        <label>当前岗位</label>
+        <input type="text" id="currentPost" placeholder="例如：科员、副科长、科长">
       </div>
       <div class="form-group">
-        <label>宸ヤ綔骞撮檺</label>
-        <input type="text" id="workYears" placeholder="渚嬪锛?骞?>
+        <label>工作年限</label>
+        <input type="text" id="workYears" placeholder="例如：5年">
       </div>
       <div class="form-group">
-        <label>瀛﹀巻鑳屾櫙</label>
+        <label>学历背景</label>
         <select id="education">
-          <option value="鏈">鏈</option>
-          <option value="纭曞＋">纭曞＋</option>
-          <option value="鍗氬＋">鍗氬＋</option>
+          <option value="本科">本科</option>
+          <option value="硕士">硕士</option>
+          <option value="博士">博士</option>
         </select>
       </div>
-      <button class="btn-primary" onclick="planCareer()">鐢熸垚鏅嬪崌瑙勫垝</button>
+      <button class="btn-primary" onclick="planCareer()">生成晋升规划</button>
       <div class="loading" id="careerLoading">
         <div class="spinner"></div>
-        <p>姝ｅ湪瑙勫垝...</p>
+        <p>正在规划...</p>
       </div>
       <div class="result-box" id="careerResult"></div>
     </div>
   </div>
 
   <footer>
-    <p>鍏€傾I鍔╂墜 - 鍩轰簬澶фā鍨嬫妧鏈?| 鏁版嵁浠呬繚瀛樺湪鏈湴娴忚鍣?/p>
+    <p>公考AI助手 - 基于大模型技术 | 数据仅保存在本地浏览器</p>
   </footer>
 </div>
 
 <script>
-// API 閰嶇疆
+// API 配置
 let API_KEY = '';
 let API_URL = 'https://api.openai.com/v1/chat/completions';
 let MODEL = 'gpt-4o-mini';
 
-// 鎻愪緵鍟嗛厤缃?const PROVIDERS = {
+// 提供商配置
+const PROVIDERS = {
   openai: { url: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o-mini' },
   deepseek: { url: 'https://api.deepseek.com/v1/chat/completions', model: 'deepseek-chat' },
   siliconflow: { url: 'https://api.siliconflow.cn/v1/chat/completions', model: 'deepseek-ai/DeepSeek-V3' },
   custom: { url: '', model: 'gpt-4o-mini' }
 };
 
-// 淇濆瓨 API Key
+// 保存 API Key
 document.getElementById('apiProvider').addEventListener('change', function() {
   const isCustom = this.value === 'custom';
   document.getElementById('customUrlGroup').style.display = isCustom ? 'block' : 'none';
@@ -496,7 +503,7 @@ function saveApiKey() {
   const provider = document.getElementById('apiProvider').value;
   const key = document.getElementById('apiKeyInput').value.trim();
   if (!key) {
-    alert('璇疯緭鍏?API Key');
+    alert('请输入 API Key');
     return;
   }
   API_KEY = key;
@@ -506,14 +513,15 @@ function saveApiKey() {
   document.getElementById('apiKeyModal').classList.add('hidden');
 }
 
-// 鍒囨崲鏍囩椤?function switchTab(tab) {
+// 切换标签页
+function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   event.target.classList.add('active');
   document.getElementById(tab + 'Panel').classList.add('active');
 }
 
-// 璋冪敤澶фā鍨?API
+// 调用大模型 API
 async function callAI(systemPrompt, userPrompt, resultId, loadingId) {
   const resultEl = document.getElementById(resultId);
   const loadingEl = document.getElementById(loadingId);
@@ -546,138 +554,161 @@ async function callAI(systemPrompt, userPrompt, resultId, loadingId) {
     
     const data = await response.json();
     if (data.error) {
-      resultEl.textContent = '閿欒锛? + data.error.message;
+      resultEl.textContent = '错误：' + data.error.message;
     } else {
       resultEl.textContent = data.choices[0].message.content;
     }
     resultEl.classList.add('show');
   } catch (err) {
-    resultEl.textContent = '璇锋眰澶辫触锛? + err.message + '\n\n璇锋鏌?API Key 鍜岀綉缁滆繛鎺ャ€?;
+    resultEl.textContent = '请求失败：' + err.message + '\n\n请检查 API Key 和网络连接。';
     resultEl.classList.add('show');
   } finally {
     loadingEl.classList.remove('show');
   }
 }
 
-// 琛屾祴瑙ｆ瀽
+// 行测解析
 function analyzeXingce() {
   const type = document.getElementById('xingceType').value;
   const question = document.getElementById('xingceQuestion').value.trim();
   const answer = document.getElementById('xingceAnswer').value.trim();
   
   if (!question) {
-    alert('璇疯緭鍏ラ鐩唴瀹?);
+    alert('请输入题目内容');
     return;
   }
   
-  const systemPrompt = `浣犳槸涓€浣嶈祫娣辩殑鍏姟鍛樿€冭瘯鍩硅涓撳锛屾搮闀胯娴嬪悇绉戠洰鐨勮В鏋愩€備綘鐨勫洖绛旈渶瑕侊細
-1. 鍏堢粰鍑烘纭瓟妗?2. 璇︾粏瑙ｉ噴瑙ｉ鎬濊矾鍜屽叧閿煡璇嗙偣
-3. 鎻愪緵绫讳技鐨勮В棰樻妧宸у拰閫熺畻鏂规硶
-4. 濡傛灉鐢ㄦ埛绛旀閿欒锛屾寚鍑哄父瑙佽鍖?5. 鐢ㄤ腑鏂囧洖绛旓紝鏉＄悊娓呮櫚`;
+  const systemPrompt = `你是一位资深的公务员考试培训专家，擅长行测各科目的解析。你的回答需要：
+1. 先给出正确答案
+2. 详细解释解题思路和关键知识点
+3. 提供类似的解题技巧和速算方法
+4. 如果用户答案错误，指出常见误区
+5. 用中文回答，条理清晰`;
   
-  const userPrompt = `棰樺瀷锛?{type}\n\n棰樼洰锛歕n${question}\n\n${answer ? '鎴戠殑绛旀锛? + answer : ''}\n\n璇疯缁嗚В鏋愯繖閬撻鐩€俙;
+  const userPrompt = `题型：${type}\n\n题目：\n${question}\n\n${answer ? '我的答案：' + answer : ''}\n\n请详细解析这道题目。`;
   
   callAI(systemPrompt, userPrompt, 'xingceResult', 'xingceLoading');
 }
 
-// 鐢熸垚妯℃嫙棰?function generateMock(type) {
-  const systemPrompt = `浣犳槸涓€浣嶅叕鍔″憳鑰冭瘯鍛介涓撳銆傝鐢熸垚涓€閬?{type}鐨勬ā鎷熼锛岃姹傦細
-1. 棰樼洰闅惧害閫備腑锛岀鍚堝浗鑰?鐪佽€冩爣鍑?2. 鎻愪緵4涓€夐」
-3. 缁欏嚭姝ｇ‘绛旀鍜岃缁嗚В鏋?4. 鏍囨敞璇ラ鑰冩煡鐨勬牳蹇冪煡璇嗙偣`;
+// 生成模拟题
+function generateMock(type) {
+  const systemPrompt = `你是一位公务员考试命题专家。请生成一道${type}的模拟题，要求：
+1. 题目难度适中，符合国考/省考标准
+2. 提供4个选项
+3. 给出正确答案和详细解析
+4. 标注该题考查的核心知识点`;
   
-  const userPrompt = `璇风敓鎴愪竴閬?{type}鐨勬ā鎷熼锛屽苟闄勫甫绛旀鍜岃В鏋愩€俙;
+  const userPrompt = `请生成一道${type}的模拟题，并附带答案和解析。`;
   
   callAI(systemPrompt, userPrompt, 'mockResult', 'mockLoading');
 }
 
-// 鐢宠鎵规敼
+// 申论批改
 function gradeShenlun() {
   const topic = document.getElementById('shenlunTopic').value.trim();
   const answer = document.getElementById('shenlunAnswer').value.trim();
   
   if (!topic || !answer) {
-    alert('璇疯緭鍏ラ鐩姹傚拰浣滅瓟鍐呭');
+    alert('请输入题目要求和作答内容');
     return;
   }
   
-  const systemPrompt = `浣犳槸涓€浣嶈祫娣辩殑鐢宠闃呭嵎涓撳锛屾嫢鏈夊骞寸敵璁烘壒鏀圭粡楠屻€傝鎸夌収浠ヤ笅缁村害杩涜鎵规敼锛?1. 鎬讳綋璇勫垎锛堟弧鍒?00鍒嗭級
-2. 瑕佺偣瑕嗙洊搴︼紙鏄惁閬楁紡鍏抽敭寰楀垎鐐癸級
-3. 閫昏緫缁撴瀯锛堟潯鐞嗘槸鍚︽竻鏅帮級
-4. 璇█琛ㄨ揪锛堟槸鍚﹁鑼冦€佺畝娲侊級
-5. 鍏蜂綋闂鎸囧嚭
-6. 鏀硅繘寤鸿
-7. 鍙傝€冭寖鏂?璇风敤涓枃鍥炵瓟锛岃瘎鍒嗘爣鍑嗗弬鐓у浗鑰冪敵璁洪槄鍗锋爣鍑嗐€俙;
+  const systemPrompt = `你是一位资深的申论阅卷专家，拥有多年申论批改经验。请按照以下维度进行批改：
+1. 总体评分（满分100分）
+2. 要点覆盖度（是否遗漏关键得分点）
+3. 逻辑结构（条理是否清晰）
+4. 语言表达（是否规范、简洁）
+5. 具体问题指出
+6. 改进建议
+7. 参考范文
+请用中文回答，评分标准参照国考申论阅卷标准。`;
   
-  const userPrompt = `棰樼洰瑕佹眰锛歕n${topic}\n\n鎴戠殑浣滅瓟锛歕n${answer}\n\n璇峰鎴戠殑鐢宠绛旀杩涜璇︾粏鎵规敼銆俙;
+  const userPrompt = `题目要求：\n${topic}\n\n我的作答：\n${answer}\n\n请对我的申论答案进行详细批改。`;
   
   callAI(systemPrompt, userPrompt, 'shenlunResult', 'shenlunLoading');
 }
 
-// 鐢熸垚鐢宠鑼冩枃
+// 生成申论范文
 function generateShenlun() {
   const theme = document.getElementById('shenlunTheme').value.trim();
   const type = document.getElementById('shenlunType').value;
   
   if (!theme) {
-    alert('璇疯緭鍏ヤ富棰?);
+    alert('请输入主题');
     return;
   }
   
-  const systemPrompt = `浣犳槸涓€浣嶇敵璁哄啓浣滀笓瀹讹紝鎿呴暱鍚勭被鐢宠棰樺瀷鐨勮寖鏂囧垱浣溿€傝鐢熸垚楂樿川閲忕殑鐢宠鑼冩枃锛岃姹傦細
-1. 绱ф墸涓婚锛岃鐐规槑纭?2. 缁撴瀯瀹屾暣锛堝紑澶?涓讳綋-缁撳熬锛?3. 璁鸿瘉鍏呭垎锛屾湁鐞嗘湁鎹?4. 璇█瑙勮寖锛岀鍚堝叕鏂囧啓浣滆姹?5. 濡傛灉鏄ぇ浣滄枃锛屽瓧鏁版帶鍒跺湪1000-1200瀛梎;
+  const systemPrompt = `你是一位申论写作专家，擅长各类申论题型的范文创作。请生成高质量的申论范文，要求：
+1. 紧扣主题，观点明确
+2. 结构完整（开头-主体-结尾）
+3. 论证充分，有理有据
+4. 语言规范，符合公文写作要求
+5. 如果是大作文，字数控制在1000-1200字`;
   
-  const userPrompt = `璇风敓鎴愪竴绡囧叧浜?${theme}"鐨?{type}鑼冩枃銆俙;
+  const userPrompt = `请生成一篇关于"${theme}"的${type}范文。`;
   
   callAI(systemPrompt, userPrompt, 'shenlunGenResult', 'shenlunGenLoading');
 }
 
-// 浼佷笟鏋舵瀯鍒嗘瀽
+// 企业架构分析
 function analyzeArch() {
   const name = document.getElementById('companyName').value.trim();
   const type = document.getElementById('companyType').value;
   const industry = document.getElementById('industry').value;
   const desc = document.getElementById('companyDesc').value.trim();
   
-  const systemPrompt = `浣犳槸涓€浣嶄紒涓氱鐞嗗拰缁勭粐鏋舵瀯鍒嗘瀽涓撳銆傝鏍规嵁鎻愪緵鐨勪紒涓氫俊鎭紝鐢熸垚涓€浠借缁嗙殑缁勭粐鏋舵瀯鍒嗘瀽鎶ュ憡锛屽寘鍚細
-1. 鍏稿瀷缁勭粐鏋舵瀯鍥撅紙鏂囧瓧鎻忚堪锛?2. 鍚勯儴闂ㄨ亴鑳借鏄?3. 鍐崇瓥娴佺▼鍜屾眹鎶ュ叧绯?4. 璇ョ被鍨嬩紒涓氱殑绠＄悊鐗圭偣
-5. 甯歌闂鍜屼紭鍖栧缓璁?璇风敤涓枃鍥炵瓟锛屾潯鐞嗘竻鏅般€俙;
+  const systemPrompt = `你是一位企业管理和组织架构分析专家。请根据提供的企业信息，生成一份详细的组织架构分析报告，包含：
+1. 典型组织架构图（文字描述）
+2. 各部门职能说明
+3. 决策流程和汇报关系
+4. 该类型企业的管理特点
+5. 常见问题和优化建议
+请用中文回答，条理清晰。`;
   
-  const userPrompt = `浼佷笟鍚嶇О锛?{name || '鏈寚瀹?}\n浼佷笟绫诲瀷锛?{type}\n琛屼笟棰嗗煙锛?{industry}\n琛ュ厖鎻忚堪锛?{desc || '鏃?}\n\n璇风敓鎴愯浼佷笟鐨勭粍缁囨灦鏋勫垎鏋愭姤鍛娿€俙;
+  const userPrompt = `企业名称：${name || '未指定'}\n企业类型：${type}\n行业领域：${industry}\n补充描述：${desc || '无'}\n\n请生成该企业的组织架构分析报告。`;
   
   callAI(systemPrompt, userPrompt, 'archResult', 'archLoading');
 }
 
-// 棰嗗缁撴瀯鍒嗘瀽
+// 领导结构分析
 function analyzeLeader() {
   const unitType = document.getElementById('unitType').value;
   const unitLevel = document.getElementById('unitLevel').value;
   const leaderInfo = document.getElementById('leaderInfo').value.trim();
   
-  const systemPrompt = `浣犳槸涓€浣嶄綋鍒跺唴缁勭粐绠＄悊鐮旂┒涓撳銆傝鏍规嵁鎻愪緵鐨勫崟浣嶄俊鎭紝鐢熸垚涓€浠介瀵肩彮瀛愮粨鏋勫垎鏋愭姤鍛婏紝鍖呭惈锛?1. 璇ョ骇鍒崟浣嶇殑鍏稿瀷棰嗗鐝瓙閰嶇疆
-2. 鍚勮亴浣嶇殑鑱岃矗鍒嗗伐
-3. 鍐崇瓥鏈哄埗鍜岃浜嬭鍒?4. 甯歌鐨勭彮瀛愮粨鏋勬ā寮?5. 鏂颁汉濡備綍蹇€熶簡瑙ｇ彮瀛愯繍浣?璇风敤涓枃鍥炵瓟锛屽唴瀹瑰姟瀹炪€佹帴鍦版皵銆俙;
+  const systemPrompt = `你是一位体制内组织管理研究专家。请根据提供的单位信息，生成一份领导班子结构分析报告，包含：
+1. 该级别单位的典型领导班子配置
+2. 各职位的职责分工
+3. 决策机制和议事规则
+4. 常见的班子结构模式
+5. 新人如何快速了解班子运作
+请用中文回答，内容务实、接地气。`;
   
-  const userPrompt = `鍗曚綅绫诲瀷锛?{unitType}\n鍗曚綅绾у埆锛?{unitLevel}\n棰嗗鐝瓙淇℃伅锛歕n${leaderInfo || '鏈彁渚涘叿浣撲俊鎭?}\n\n璇风敓鎴愰瀵肩彮瀛愮粨鏋勫垎鏋愭姤鍛娿€俙;
+  const userPrompt = `单位类型：${unitType}\n单位级别：${unitLevel}\n领导班子信息：\n${leaderInfo || '未提供具体信息'}\n\n请生成领导班子结构分析报告。`;
   
   callAI(systemPrompt, userPrompt, 'leaderResult', 'leaderLoading');
 }
 
-// 鏅嬪崌璺緞瑙勫垝
+// 晋升路径规划
 function planCareer() {
   const post = document.getElementById('currentPost').value.trim();
   const years = document.getElementById('workYears').value.trim();
   const edu = document.getElementById('education').value;
   
   if (!post) {
-    alert('璇疯緭鍏ュ綋鍓嶅矖浣?);
+    alert('请输入当前岗位');
     return;
   }
   
-  const systemPrompt = `浣犳槸涓€浣嶄綋鍒跺唴鑱屼笟鍙戝睍椤鹃棶锛岀啛鎮夊叕鍔″憳鍜屽浗浼佺殑鏅嬪崌浣撶郴銆傝鏍规嵁鎻愪緵鐨勪俊鎭紝鐢熸垚涓€浠戒釜鎬у寲鐨勬檵鍗囪矾寰勮鍒掞紝鍖呭惈锛?1. 褰撳墠闃舵鐨勫畾浣嶅垎鏋?2. 涓嬩竴姝ユ檵鍗囩洰鏍囧拰鏃堕棿棰勬湡
-3. 闇€瑕佹彁鍗囩殑鑳藉姏鍜岃祫璐?4. 鍏蜂綋琛屽姩寤鸿锛堝涔犮€侀」鐩€佷汉鑴夌瓑锛?5. 甯歌璇尯鎻愰啋
-璇风敤涓枃鍥炵瓟锛屽唴瀹瑰姟瀹炪€佸彲鎿嶄綔鎬у己銆俙;
+  const systemPrompt = `你是一位体制内职业发展顾问，熟悉公务员和国企的晋升体系。请根据提供的信息，生成一份个性化的晋升路径规划，包含：
+1. 当前阶段的定位分析
+2. 下一步晋升目标和时间预期
+3. 需要提升的能力和资质
+4. 具体行动建议（学习、项目、人脉等）
+5. 常见误区提醒
+请用中文回答，内容务实、可操作性强。`;
   
-  const userPrompt = `褰撳墠宀椾綅锛?{post}\n宸ヤ綔骞撮檺锛?{years || '鏈寚瀹?}\n瀛﹀巻锛?{edu}\n\n璇风敓鎴愭垜鐨勬檵鍗囪矾寰勮鍒掋€俙;
+  const userPrompt = `当前岗位：${post}\n工作年限：${years || '未指定'}\n学历：${edu}\n\n请生成我的晋升路径规划。`;
   
   callAI(systemPrompt, userPrompt, 'careerResult', 'careerLoading');
 }
